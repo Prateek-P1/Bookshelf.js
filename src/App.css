@@ -78,7 +78,7 @@ body, html {
   width: 300px;
   padding: 20px;
   border-radius: 15px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0,0,0,0.2);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -94,7 +94,7 @@ body, html {
 }
 
 #planner input {
-  width: 100%;
+  width: 90%;
   padding: 12px;
   margin-bottom: 15px;
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -195,7 +195,7 @@ body, html {
 }
 
 #noteTextArea {
-  width: 100%;
+  width: 90%;
   height: 200px;
   background: rgba(255, 255, 255, 0.05);
   color: white;
