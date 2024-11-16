@@ -179,6 +179,10 @@ body, html {
   background: rgba(255, 255, 255, 0.05);
 }
 
+#drop-area-content{
+  color: rgba(0,0,0,0.2);
+}
+
 /* Note Area Styles */
 #noteArea {
   position: absolute;
