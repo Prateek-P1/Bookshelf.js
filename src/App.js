@@ -26,6 +26,12 @@ function App() {
     const taskInputRef = useRef();
     const audioPlayerRef = useRef();
     const fileInputRef = useRef();
+    const [isDragging, setIsDragging] = useState(false);
+    const [dragDirection, setDragDirection] = useState('');
+    const [startPosition, setStartPosition] = useState({ x: 0, y: 0 });
+    const [zoom, setZoom] = useState(1);
+    const dropAreaRef = useRef(null);
+
 
     useEffect(() => {
         const audioElement = audioPlayerRef.current;
@@ -138,18 +144,106 @@ function App() {
         }
     };
 
+    const handleZoom = (direction) => {
+        const newZoom = direction === 'in' ? zoom * 1.1 : zoom * 0.9;
+        setZoom(newZoom);
+        const content = document.getElementById('drop-area-content');
+        if (content) {
+            content.style.transform = `scale(${newZoom})`;
+            content.style.transformOrigin = 'center center';
+        }
+    };
+
+    const handleMouseDown = (e, direction) => {
+        e.preventDefault();
+        setIsDragging(true);
+        setDragDirection(direction);
+        setStartPosition({
+            x: e.clientX,
+            y: e.clientY
+        });
+    };
+
+    const handleMouseMove = (e) => {
+        if (!isDragging || !dropAreaRef.current) return;
+
+        const deltaX = e.clientX - startPosition.x;
+        const deltaY = e.clientY - startPosition.y;
+        const currentWidth = parseInt(dropAreaSize.width);
+        const currentHeight = parseInt(dropAreaSize.height);
+
+        switch (dragDirection) {
+            case 'e':
+                setDropAreaSize(prev => ({
+                    ...prev,
+                    width: `${currentWidth + deltaX}px`
+                }));
+                break;
+            case 's':
+                setDropAreaSize(prev => ({
+                    ...prev,
+                    height: `${currentHeight + deltaY}px`
+                }));
+                break;
+            case 'se':
+                setDropAreaSize({
+                    width: `${currentWidth + deltaX}px`,
+                    height: `${currentHeight + deltaY}px`
+                });
+                break;
+            default:
+                break;
+        }
+
+        setStartPosition({
+            x: e.clientX,
+            y: e.clientY
+        });
+    };
+
+    const handleMouseUp = () => {
+        setIsDragging(false);
+        setDragDirection('');
+    };
+
+    useEffect(() => {
+        if (isDragging) {
+            document.addEventListener('mousemove', handleMouseMove);
+            document.addEventListener('mouseup', handleMouseUp);
+        }
+
+        return () => {
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', handleMouseUp);
+        };
+    }, [isDragging]);
+
     const handleFile = (file) => {
         const fileType = file.type;
         const fileURL = URL.createObjectURL(file);
         const dropArea = document.getElementById('drop-area-content');
         dropArea.innerHTML = ''; // Clear previous content
-
+        setZoom(1); // Reset zoom when loading new file
+    
         if (fileType === 'application/pdf') {
-            const preview = document.createElement('embed');
-            preview.src = fileURL;
-            preview.style.width = '100%';
-            preview.style.height = '100%';
-            dropArea.appendChild(preview);
+            const container = document.createElement('div');
+            container.style.width = '100%';
+            container.style.height = '100%';
+            container.style.position = 'relative';
+            container.style.overflow = 'hidden';
+
+            const iframe = document.createElement('iframe');
+            iframe.src = fileURL;
+            iframe.style.width = '100%';
+            iframe.style.height = '100%';
+            iframe.style.border = 'none';
+            iframe.style.position = 'absolute';
+            iframe.style.top = '0';
+            iframe.style.left = '0';
+            iframe.allowFullscreen = true;
+
+            container.appendChild(iframe);
+            dropArea.appendChild(container);
         } else if (fileType.startsWith('image/')) {
             const img = document.createElement('img');
             img.src = fileURL;
@@ -166,6 +260,7 @@ function App() {
             dropArea.innerHTML = `Unsupported file type: <strong>${file.name}</strong>`;
         }
     };
+
 
     const toggleFullscreen = () => {
         if (!document.fullscreenElement) {
@@ -257,28 +352,17 @@ function App() {
             {showDropArea && (
                 <div id="drop-area-container">
                     <div className="drop-area-controls">
-                        <label>
-                            Width:
-                            <input
-                                type="text"
-                                value={dropAreaSize.width}
-                                onChange={(e) => handleDropAreaResize('width', e.target.value)}
-                            />
-                        </label>
-                        <label>
-                            Height:
-                            <input
-                                type="text"
-                                value={dropAreaSize.height}
-                                onChange={(e) => handleDropAreaResize('height', e.target.value)}
-                            />
-                        </label>
+                        <button onClick={() => handleZoom('in')}>Zoom In</button>
+                        <button onClick={() => handleZoom('out')}>Zoom Out</button>
                     </div>
+
                     <div
+                        ref={dropAreaRef}
                         id="drop-area"
                         style={{
                             width: dropAreaSize.width,
                             height: dropAreaSize.height,
+                            position: 'relative',
                             border: '2px dashed #ccc',
                             borderRadius: '8px',
                             padding: '20px',
@@ -288,9 +372,30 @@ function App() {
                         onDragOver={(e) => e.preventDefault()}
                         onDrop={handleFileDrop}
                     >
-                        <div id="drop-area-content">
+                        <div id="drop-area-content" style={{ 
+                            width: '100%', 
+                            height: '100%', 
+                            overflow: 'hidden',
+                            transform: `scale(${zoom})`,
+                            transformOrigin: 'center center',
+                            transition: 'transform 0.2s ease-out'
+                        }}>
                             Drag & Drop any file here
                         </div>
+                        
+                        {/* Resize handles */}
+                        <div
+                            className="resize-handle resize-e"
+                            onMouseDown={(e) => handleMouseDown(e, 'e')}
+                        />
+                        <div
+                            className="resize-handle resize-s"
+                            onMouseDown={(e) => handleMouseDown(e, 's')}
+                        />
+                        <div
+                            className="resize-handle resize-se"
+                            onMouseDown={(e) => handleMouseDown(e, 'se')}
+                        />
                     </div>
                 </div>
             )}

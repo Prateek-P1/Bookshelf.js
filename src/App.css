@@ -355,3 +355,54 @@ audio::-webkit-media-controls-time-remaining-display {
   padding: 5px 10px !important;
   font-size: 12px !important;
 }
+
+/* Add these styles to your App.css file */
+
+.resize-handle {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.resize-handle:hover {
+  background: rgba(255, 255, 255, 1);
+}
+
+.resize-e {
+  cursor: e-resize;
+  width: 8px;
+  height: calc(100% - 16px);
+  right: -5px;
+  top: 8px;
+}
+
+.resize-s {
+  cursor: s-resize;
+  height: 8px;
+  width: calc(100% - 16px);
+  bottom: -5px;
+  left: 8px;
+}
+
+.resize-se {
+  cursor: se-resize;
+  width: 12px;
+  height: 12px;
+  right: -6px;
+  bottom: -6px;
+  border-radius: 50%;
+}
+
+#drop-area {
+  user-select: none;
+}
+
+#drop-area-content {
+  pointer-events: none;
+}
+
+#drop-area-content iframe,
+#drop-area-content img,
+#drop-area-content video {
+  pointer-events: auto;
+}
