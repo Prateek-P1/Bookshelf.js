@@ -260,7 +260,7 @@ audio::-webkit-media-controls-panel {
 
 audio::-webkit-media-controls-current-time-display,
 audio::-webkit-media-controls-time-remaining-display {
-  color: white;
+  color: black;
 }
 
 /* Background Selector Styles */
