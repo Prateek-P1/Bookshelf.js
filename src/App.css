@@ -93,10 +93,10 @@ body, html {
   margin-bottom: 20px;
 }
 
-#planner input {
-  width: 90%;
+#planner input[type="text"] {
+  width: calc(100% - 24px);
   padding: 12px;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.1);
@@ -104,24 +104,62 @@ body, html {
   font-size: 14px;
 }
 
+#planner button[onclick="addTask"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  background: rgba(76, 175, 80, 0.3);
+}
+
+#planner button[onclick="addTask"]:hover {
+  background: rgba(76, 175, 80, 0.4);
+}
+
 #planner input::placeholder {
   color: rgba(255, 255, 255, 0.6);
 }
 
+#tasks {
+  margin-top: 15px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
 .task {
   background: rgba(255, 255, 255, 0.1);
-  padding: 12px;
+  padding: 8px 12px;
   border-radius: 10px;
   margin-bottom: 10px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   transition: all 0.3s ease;
+  word-break: break-word;
+}
+
+.task input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  margin: 0;
+  flex-shrink: 0;
+  accent-color: rgba(76, 175, 80, 0.8);
+}
+
+.task span {
+  flex-grow: 1;
+  margin: 0 8px;
+  color: white;
 }
 
 .task.completed {
   background: rgba(76, 175, 80, 0.2);
   text-decoration: line-through;
+}
+
+.task.completed span {
+  text-decoration: line-through;
+  color: rgba(255, 255, 255, 0.7);
 }
 
 /* Drop Area Styles */
@@ -351,9 +389,17 @@ audio::-webkit-media-controls-time-remaining-display {
 }
 
 .task button {
-  margin-left: auto;
-  padding: 5px 10px !important;
+  padding: 4px 10px !important;
   font-size: 12px !important;
+  background: rgba(255, 0, 0, 0.2) !important;
+  border-radius: 6px !important;
+  flex-shrink: 0;
+  min-width: unset !important;
+  margin: 0 !important;
+}
+
+.task button:hover {
+  background: rgba(255, 0, 0, 0.3) !important;
 }
 
 /* Add these styles to your App.css file */
