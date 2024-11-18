@@ -28,9 +28,9 @@ function App() {
     const fileInputRef = useRef();
 
     const [cookiesAccepted, setCookiesAccepted] = useState(false);
-    const [showConfetti, setShowConfetti] = useState(false);
-    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-    const [windowHeight, setWindowHeight] = useState(window.innerHeight);
+    // const [showConfetti, setShowConfetti] = useState(false);
+    // const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+    // const [windowHeight, setWindowHeight] = useState(window.innerHeight);
 
     const [isDragging, setIsDragging] = useState(false);
     const [dragDirection, setDragDirection] = useState('');
