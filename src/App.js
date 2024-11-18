@@ -10,7 +10,6 @@ const tracks = [
     { src: '/music/lofi6.mp3', name: 'Track 6' },
     { src: '/music/lofi7.mp3', name: 'Track 7' },
     { src: '/music/lofi8.mp3', name: 'Track 8' },
-    { src: '/music/lofi9.mp3', name: 'Track 9' },
 ];
 
 function App() {
