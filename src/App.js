@@ -26,11 +26,21 @@ function App() {
     const taskInputRef = useRef();
     const audioPlayerRef = useRef();
     const fileInputRef = useRef();
+
+    const [cookiesAccepted, setCookiesAccepted] = useState(false);
+    const [showConfetti, setShowConfetti] = useState(false);
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+    const [windowHeight, setWindowHeight] = useState(window.innerHeight);
+
     const [isDragging, setIsDragging] = useState(false);
     const [dragDirection, setDragDirection] = useState('');
     const [startPosition, setStartPosition] = useState({ x: 0, y: 0 });
     const [zoom, setZoom] = useState(1);
     const dropAreaRef = useRef(null);
+
+    const acceptCookies = () => {
+        setCookiesAccepted(true);
+    };
 
 
     useEffect(() => {
@@ -299,6 +309,16 @@ function App() {
                     </select>
                 </div>
             </div>
+
+            {!cookiesAccepted && (
+                <div className="cookie-popup">
+                    <div className="cookie-popup-content">
+                        <p>We use cookies to enhance your experience.</p>
+                        <p>By continuing to visit this site, you agree to our use of cookies.</p>
+                        <button onClick={acceptCookies}>Accept</button>
+                    </div>
+                </div>
+            )}
 
             {showNoteArea && (
                 <div id="noteArea">
