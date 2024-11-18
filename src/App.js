@@ -342,17 +342,17 @@ function App() {
                     />
                     <button onClick={addTask}>Add Task</button>
                     <div id="tasks">
-                        {tasks.map((task, index) => (
-                            <div key={index} className={`task ${task.completed ? 'completed' : ''}`}>
-                                <input
-                                    type="checkbox"
-                                    checked={task.completed}
-                                    onChange={() => toggleTaskCompletion(index)}
-                                />
-                                {task.text}
-                                <button onClick={() => removeTask(index)}>Remove</button>
-                            </div>
-                        ))}
+                    {tasks.map((task, index) => (
+                        <div key={index} className={`task ${task.completed ? 'completed' : ''}`}>
+                            <input
+                                type="checkbox"
+                                checked={task.completed}
+                                onChange={() => toggleTaskCompletion(index)}
+                            />
+                            <span>{task.text}</span>
+                            <button onClick={() => removeTask(index)}>Remove</button>
+                        </div>
+                    ))}
                     </div>
                 </div>
             )}
