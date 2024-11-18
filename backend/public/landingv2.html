@@ -31,7 +31,7 @@
             width: 100%;
             padding: 15px 20px;
             display: flex;
-            justify-content:space-evenly;
+            justify-content: space-evenly;
             align-items: center;
             background: rgba(0, 0, 0, 0.8);
             z-index: 10;
@@ -87,6 +87,10 @@
             background: rgba(52, 73, 94, 0.8);
         }
 
+        #creators {
+            background: rgba(34, 49, 63, 0.8);
+        }
+
         #contact {
             background: rgba(44, 62, 80, 0.8);
         }
@@ -107,6 +111,52 @@
             background-color: black;
             color: white;
         }
+
+        /* Creators Section */
+        .creator-card {
+            text-align: center;
+            max-width: 250px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .creator-card img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .screenshot-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .screenshot {
+            width: 300px;
+            height: 200px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+        }
+        .navbar .enter-app-nav {
+            display: none;
+            padding: 10px 15px;
+            background-color: white;
+            color: black;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .navbar .enter-app-nav.visible {
+            display: inline-block;
+        }
     </style>
 </head>
 <body>
@@ -120,55 +170,163 @@
     <div class="navbar">
         <a href="#home" class="logo">
             <img src="favicon.png" alt="Bookshelf.js" height="55">
-            </a>
+        </a>
         <nav>
             <a href="#home">Home</a>
             <a href="#services">Services</a>
             <a href="#about">About Us</a>
+            <a href="#creators">Creators</a>
             <a href="#contact">Contact Us</a>
+            <a href="http://localhost:3000" class="enter-app-nav">Start Your Free Library</a>
         </nav>
     </div>
 
     <!-- Sections -->
     <section id="home">
         <div>
-            <h1>Welcome to Bookshelf.js</h1>
-            <p>Discover a better way to manage your digital library.</p>
-            <button class="enter-app" onclick="enterReactApp()">Try Bookshelf.js for free</button>
+            <h1>Bookshelf.js: Your Digital Library Companion</h1>
+            <p>Seamlessly organize, search, and access your digital book collection.</p>
+            <button class="enter-app" onclick="enterReactApp()">Start Your Free Library</button>
         </div>
     </section>
 
-    <section id="services">
-        <div>
-            <h1>Our Services</h1>
-            <p>We offer tools to organize, search, and access your e-books effortlessly.</p>
-        </div>
-    </section>
+<section id="services">
+   <div>
+       <h1>Comprehensive Digital Library Management</h1>
+       <p>Experience powerful features designed to transform your digital reading experience.</p>
+       
+       <div class="screenshot-container" style="display: flex; justify-content: center; padding: 20px;">
+           <div style="
+               border: 2px solid rgba(255,255,255,0.3);
+               border-radius: 15px;
+               background-color: rgba(255,255,255,0.1);
+               box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+               transition: transform 0.3s ease;
+               width: 90%;
+               max-width: 1200px;
+               overflow: hidden;
+           " onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+               <div style="height: 600px; border-radius: 10px; overflow: hidden;">
+                   <img src="three.png" alt="Search & Filter Interface" style="max-width: 100%; max-height: 100%; object-fit: cover;">
+               </div>
+           </div>
+       </div>
+   </div>
+</section>
 
     <section id="about">
         <div>
-            <h1>About Us</h1>
+            <h1>Our Mission</h1>
             <p>
-                At Bookshelf.js, we aim to simplify digital reading. Our platform helps readers, 
-                authors, and libraries manage digital collections seamlessly.
+                Bookshelf.js is revolutionizing digital reading management.<br> We believe technology 
+                should simplify how readers interact with their digital libraries, making book 
+                discovery, organization, and tracking effortless and intuitive.
+            </p>
+            <br>
+            <div style="display: flex; justify-content: center; gap: 30px;">
+                <div style="
+                    border: 2px solid rgba(255,255,255,0.3);
+                    border-radius: 15px;
+                    padding: 20px;
+                    background-color: rgba(255,255,255,0.1);
+                    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                    transition: transform 0.3s ease;
+                    max-width: 400px;
+                " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    <h3>Open Source</h3>
+                    <p>Community-driven development ensuring transparency and continuous improvement.</p>
+                    <div style="height: 300px; border-radius: 10px; overflow: hidden;">
+                        <img src="one.png" alt="Open Source Illustration" style="max-width: 100%; max-height: 100%; object-fit: cover;">
+                    </div>
+                </div>
+                <div style="
+                    border: 2px solid rgba(255,255,255,0.3);
+                    border-radius: 15px;
+                    padding: 20px;
+                    background-color: rgba(255,255,255,0.1);
+                    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                    transition: transform 0.3s ease;
+                    max-width: 400px;
+                " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    <h3>Cross-Platform</h3>
+                    <p>Access your library seamlessly across desktop and mobile devices.</p>
+                    <div style="height: 300px; border-radius: 10px; overflow: hidden;">
+                        <img src="two.png" alt="Cross-Platform Illustration" style="max-width: 100%; max-height: 100%; object-fit: cover;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="creators">
+        <div>
+            <h1>Meet Our Creators</h1>
+            <p>Passionate technologists dedicated to transforming digital reading experiences.</p>
+            <br>
+            <div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 20px;">
+                <div class="creator-card">
+                    <img src="NJ.png" alt="Nihal J">
+                    <h3><a href="https://github.com/Nihal180804" target="_blank" style="color: white; margin: 0 10px;">Nihal J</a></h3>
+                    <p>Co-founder & Visionary</p>
+                    <p>Technology strategist with a passion for democratizing digital knowledge.</p>
+
+                </div>
+                <div class="creator-card">
+                    <img src="PP.jpg" alt="Prateek P">
+                    <h3><a href="https://www.linkedin.com/in/prateek-p-7a5b68215/" target="_blank" style="color: white; margin: 0 10px;">Prateek P</a></h3>
+                    <p>Lead Developer</p>
+                    <p>Backend architecture expert ensuring scalability and performance.</p>
+                </div>
+                <div class="creator-card">
+                    <img src="NR.png" alt="Nihal R">
+                    <h3><a href="https://github.com/NRG2005" target="_blank" style="color: white; margin: 0 10px;">Nihal R</a></h3>
+                    <p>Lead Developer</p>
+                    <p>Design innovator creating intuitive and elegant user experiences.</p>
+                </div>
+            </div>
+            <br>
+            <p style="text-align: center; margin-top: 20px;">
+                United by a vision to make digital libraries accessible and user-friendly.
             </p>
         </div>
     </section>
 
     <section id="contact">
         <div>
-            <h1>Contact Us</h1>
+            <h1>Connect With Us</h1>
             <p>
-                Have questions? Reach out at <a href="mailto:support@bookshelfjs.com">support@bookshelfjs.com</a>
+                Questions, suggestions, or collaboration opportunities? 
+                Reach out to us!
             </p>
+            <div style="margin-top: 20px;">
+                <a href="https://github.com/Prateek-P1/Bookshelf.js" target="_blank" style="color: white; margin: 0 10px;">GitHub</a>
+            </div>
         </div>
     </section>
 
     <!-- Redirect Script -->
     <script>
         function enterReactApp() {
-            window.location.href = "http://localhost:3000"; // Redirect to local React app
+            window.location.href = "http://localhost:3000";
         }
+
+        // Add scroll event listener
+        window.addEventListener('scroll', function() {
+            const homeSection = document.getElementById('home');
+            const navbarEnterAppBtn = document.querySelector('.navbar .enter-app-nav');
+            
+            // Get the height of the home section
+            const homeSectionHeight = homeSection.offsetHeight;
+            
+            // Check if scrolled past home section
+            if (window.scrollY > homeSectionHeight) {
+                navbarEnterAppBtn.classList.add('visible');
+            } else {
+                navbarEnterAppBtn.classList.remove('visible');
+            }
+        });
     </script>
 </body>
 </html>
+
+<!--TODO ADD PROFILE PICTURES, UPDATE CREATOR TITLES AND THEIR LINKEDINS-->
