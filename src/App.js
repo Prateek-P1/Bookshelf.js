@@ -19,7 +19,7 @@ function App() {
     const [showNoteArea, setShowNoteArea] = useState(false);
     const [showDropArea, setShowDropArea] = useState(false);
     const [tasks, setTasks] = useState([]);
-    const [background, setBackground] = useState('/images/background1.gif');
+    const [background, setBackground] = useState('/images/background7.gif');
     const [notes, setNotes] = useState('');
     const [dropAreaSize, setDropAreaSize] = useState({ width: '400px', height: '300px' });
     const [isPlaying, setIsPlaying] = useState(false);
