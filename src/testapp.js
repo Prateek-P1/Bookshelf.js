@@ -5,55 +5,80 @@ const tracks = [
     { src: '/music/lofi1.mp3', name: 'Track 1' },
     { src: '/music/lofi2.mp3', name: 'Track 2' },
     { src: '/music/lofi3.mp3', name: 'Track 3' },
+    { src: '/music/lofi4.mp3', name: 'Track 4' },
+    { src: '/music/lofi5.mp3', name: 'Track 5' },
+    { src: '/music/lofi6.mp3', name: 'Track 6' },
+    { src: '/music/lofi7.mp3', name: 'Track 7' },
+    { src: '/music/lofi8.mp3', name: 'Track 8' },
+    { src: '/music/lofi9.mp3', name: 'Track 9' },
 ];
+
+const backgrounds = {
+    'background7.gif': 'Sunset Window',
+    'background1.gif': 'Blue Lagoon',
+    'background4.gif': 'Cafe',
+    'background6.gif': 'Beachside Living room',
+    'background8.gif': 'Midnight Street'
+};
 
 function App() {
     const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
-    const [isAudioPlaying, setIsAudioPlaying] = useState(false);
     const [showPlanner, setShowPlanner] = useState(false);
     const [showNoteArea, setShowNoteArea] = useState(false);
     const [showDropArea, setShowDropArea] = useState(false);
+    const [tasks, setTasks] = useState([]);
+    const [background, setBackground] = useState('/images/background7.gif'); // Default to sunset window
     const [notes, setNotes] = useState('');
-    const [dropAreaSize, setDropAreaSize] = useState({ width: 600, height: 400 });
-
+    const [isResizing, setIsResizing] = useState(false);
+    const [dropAreaSize, setDropAreaSize] = useState({ width: 400, height: 300 });
+    const [resizeStartPos, setResizeStartPos] = useState({ x: 0, y: 0 });
+    const [isPlaying, setIsPlaying] = useState(false);
+    const [currentDateTime, setCurrentDateTime] = useState(new Date());
+    const taskInputRef = useRef();
     const audioPlayerRef = useRef();
-
-    // Load and play the selected track
-    const loadTrack = (index) => {
-        setCurrentTrackIndex(index);
-    };
-
-    const nextTrack = () => {
-        const nextIndex = (currentTrackIndex + 1) % tracks.length;
-        loadTrack(nextIndex);
-    };
-
-    const playAudio = () => {
-        if (audioPlayerRef.current) {
-            audioPlayerRef.current.play();
-            setIsAudioPlaying(true);
-        }
-    };
-
-    const pauseAudio = () => {
-        if (audioPlayerRef.current) {
-            audioPlayerRef.current.pause();
-            setIsAudioPlaying(false);
-        }
-    };
+    const fileInputRef = useRef();
+    const dropAreaRef = useRef();
 
     useEffect(() => {
-        if (isAudioPlaying && audioPlayerRef.current) {
-            audioPlayerRef.current.load();
-            audioPlayerRef.current.play().catch((error) => {
-                console.warn("Playback error:", error);
-            });
+        // Update date and time every minute
+        const timer = setInterval(() => {
+            setCurrentDateTime(new Date());
+        }, 60000);
+
+        return () => clearInterval(timer);
+    }, []);
+
+    useEffect(() => {
+        const handleMouseMove = (e) => {
+            if (isResizing && dropAreaRef.current) {
+                e.preventDefault();
+                const dx = e.clientX - resizeStartPos.x;
+                const dy = e.clientY - resizeStartPos.y;
+                
+                setDropAreaSize(prev => ({
+                    width: Math.max(400, prev.width + dx),
+                    height: Math.max(300, prev.height + dy)
+                }));
+                setResizeStartPos({ x: e.clientX, y: e.clientY });
+            }
+        };
+
+        const handleMouseUp = () => {
+            setIsResizing(false);
+        };
+
+        if (isResizing) {
+            document.addEventListener('mousemove', handleMouseMove);
+            document.addEventListener('mouseup', handleMouseUp);
         }
-    }, [currentTrackIndex, isAudioPlaying]);
 
-    const toggleNoteArea = () => setShowNoteArea(!showNoteArea);
+        return () => {
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', handleMouseUp);
+        };
+    }, [isResizing, resizeStartPos]);
 
-    const toggleDropArea = () => setShowDropArea(!showDropArea);
+    // ... (keep all existing audio-related functions)
 
     const handleFileDrop = (event) => {
         event.preventDefault();
@@ -66,109 +91,153 @@ function App() {
     const handleFile = (file) => {
         const fileType = file.type;
         const fileURL = URL.createObjectURL(file);
-
-        if (fileType.startsWith('image/')) {
+        const dropArea = document.getElementById('drop-area-content');
+        dropArea.innerHTML = '';
+    
+        if (fileType === 'application/pdf') {
+            const iframe = document.createElement('iframe');
+            iframe.src = fileURL;
+            iframe.style.width = '100%';
+            iframe.style.height = '100%';
+            iframe.style.border = 'none';
+            iframe.allowFullscreen = true;
+            dropArea.appendChild(iframe);
+        } else if (fileType.startsWith('image/')) {
             const img = document.createElement('img');
             img.src = fileURL;
             img.style.width = '100%';
             img.style.height = 'auto';
-            const dropArea = document.getElementById('drop-area');
-            dropArea.innerHTML = ''; // Clear previous content
             dropArea.appendChild(img);
+        } else if (fileType.startsWith('video/')) {
+            const videoElement = document.createElement('video');
+            videoElement.src = fileURL;
+            videoElement.controls = true;
+            videoElement.style.width = '100%';
+            dropArea.appendChild(videoElement);
         } else {
-            const dropArea = document.getElementById('drop-area');
-            dropArea.innerHTML = `Unsupported file type: ${file.name}`;
+            dropArea.innerHTML = `Unsupported file type: <strong>${file.name}</strong>`;
         }
     };
 
-    const importNotes = (event) => {
-        const file = event.target.files[0];
-        if (file && file.type === 'text/plain') {
-            const reader = new FileReader();
-            reader.onload = () => {
-                setNotes(reader.result);
-            };
-            reader.readAsText(file);
-        } else {
-            alert('Please select a valid text file.');
+    const handleResizeStart = (e) => {
+        e.preventDefault();
+        setIsResizing(true);
+        setResizeStartPos({ x: e.clientX, y: e.clientY });
+    };
+
+    const addTask = () => {
+        const taskText = taskInputRef.current.value.trim();
+        if (taskText !== '') {
+            setTasks([...tasks, {
+                text: taskText,
+                completed: false,
+                date: new Date().toISOString(),
+                id: Date.now()
+            }]);
+            taskInputRef.current.value = '';
         }
     };
 
-    const handleResize = (dimension, value) => {
-        setDropAreaSize((prev) => ({
-            ...prev,
-            [dimension]: value,
-        }));
+    const formatDate = (date) => {
+        return new Date(date).toLocaleString('en-US', {
+            weekday: 'short',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
     };
 
     return (
-        <div className="App">
-            <div id="musicPlayer">
-                <button onClick={playAudio} disabled={isAudioPlaying}>Play</button>
-                <button onClick={pauseAudio} disabled={!isAudioPlaying}>Pause</button>
-                <button onClick={nextTrack}>Next Track</button>
-                <audio ref={audioPlayerRef} onEnded={nextTrack}>
-                    <source src={tracks[currentTrackIndex].src} type="audio/mp3" />
-                    Your browser does not support the audio element.
-                </audio>
-                <p>Currently Playing: {tracks[currentTrackIndex].name}</p>
-            </div>
+        <div style={{ backgroundImage: `url(${background})` }} className="App">
+            <div id="topRightText"><img src="logo.png" alt="Logo" height="100" width="300" /></div>
 
-            <button onClick={toggleNoteArea}>Notes</button>
-            <button onClick={toggleDropArea}>Toggle Drop Area</button>
+            {/* ... (keep existing music player code) ... */}
 
-            {showNoteArea && (
-                <div id="noteArea">
-                    <textarea
-                        value={notes}
-                        onChange={(e) => setNotes(e.target.value)}
-                        placeholder="Write your notes here..."
-                    ></textarea>
-                    <input
-                        type="file"
-                        accept=".txt"
-                        onChange={importNotes}
-                        style={{ marginTop: '10px' }}
-                    />
+            {showPlanner && (
+                <div id="planner">
+                    <h2>My Planner</h2>
+                    <div className="current-datetime">
+                        {currentDateTime.toLocaleString('en-US', {
+                            weekday: 'long',
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        })}
+                    </div>
+                    <div className="task-input-container">
+                        <input
+                            type="text"
+                            ref={taskInputRef}
+                            placeholder="Enter a new task..."
+                            onKeyPress={(e) => e.key === 'Enter' && addTask()}
+                        />
+                        <button onClick={addTask} className="add-task-btn">Add Task</button>
+                    </div>
+                    <div id="tasks">
+                        {tasks.sort((a, b) => new Date(b.date) - new Date(a.date)).map((task) => (
+                            <div key={task.id} className={`task ${task.completed ? 'completed' : ''}`}>
+                                <div className="task-header">
+                                    <span className="task-date">{formatDate(task.date)}</span>
+                                </div>
+                                <div className="task-content">
+                                    <input
+                                        type="checkbox"
+                                        checked={task.completed}
+                                        onChange={() => toggleTaskCompletion(task.id)}
+                                    />
+                                    <span className="task-text">{task.text}</span>
+                                    <button onClick={() => removeTask(task.id)} className="remove-task-btn">
+                                        ×
+                                    </button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             )}
 
             {showDropArea && (
-                <div
-                    id="drop-area"
-                    onDragOver={(e) => e.preventDefault()}
-                    onDrop={handleFileDrop}
+                <div 
+                    id="drop-area-container"
+                    ref={dropAreaRef}
                     style={{
                         width: `${dropAreaSize.width}px`,
-                        height: `${dropAreaSize.height}px`,
-                        border: '2px dashed #fff',
-                        margin: '10px auto',
-                        position: 'relative',
+                        height: `${dropAreaSize.height}px`
                     }}
                 >
-                    Drag & Drop Files Here
-                    <div style={{ marginTop: '10px' }}>
-                        <label>
-                            Width:
-                            <input
-                                type="number"
-                                value={dropAreaSize.width}
-                                onChange={(e) => handleResize('width', e.target.value)}
-                                style={{ width: '60px', marginLeft: '5px' }}
-                            />
-                        </label>
-                        <label style={{ marginLeft: '10px' }}>
-                            Height:
-                            <input
-                                type="number"
-                                value={dropAreaSize.height}
-                                onChange={(e) => handleResize('height', e.target.value)}
-                                style={{ width: '60px', marginLeft: '5px' }}
-                            />
-                        </label>
+                    <div
+                        id="drop-area"
+                        onDragOver={(e) => e.preventDefault()}
+                        onDrop={handleFileDrop}
+                    >
+                        <div id="drop-area-content">
+                            Drag & Drop any file here
+                        </div>
                     </div>
+                    <div 
+                        className="resize-handle"
+                        onMouseDown={handleResizeStart}
+                    ></div>
                 </div>
             )}
+
+            {/* ... (keep existing note area code) ... */}
+
+            <div id="backgroundSelector">
+                <select 
+                    onChange={(e) => setBackground(`/images/${e.target.value}`)} 
+                    value={background.split('/').pop()}
+                >
+                    {Object.entries(backgrounds).map(([value, label]) => (
+                        <option key={value} value={value}>
+                            {label}
+                        </option>
+                    ))}
+                </select>
+            </div>
         </div>
     );
 }
