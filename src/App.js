@@ -35,7 +35,6 @@ function App() {
     const [isDragging, setIsDragging] = useState(false);
     const [dragDirection, setDragDirection] = useState('');
     const [startPosition, setStartPosition] = useState({ x: 0, y: 0 });
-    const [zoom, setZoom] = useState(1);
     const dropAreaRef = useRef(null);
 
     const acceptCookies = () => {
@@ -154,16 +153,6 @@ function App() {
         }
     };
 
-    const handleZoom = (direction) => {
-        const newZoom = direction === 'in' ? zoom * 1.1 : zoom * 0.9;
-        setZoom(newZoom);
-        const content = document.getElementById('drop-area-content');
-        if (content) {
-            content.style.transform = `scale(${newZoom})`;
-            content.style.transformOrigin = 'center center';
-        }
-    };
-
     const handleMouseDown = (e, direction) => {
         e.preventDefault();
         setIsDragging(true);
@@ -233,7 +222,6 @@ function App() {
         const fileURL = URL.createObjectURL(file);
         const dropArea = document.getElementById('drop-area-content');
         dropArea.innerHTML = ''; // Clear previous content
-        setZoom(1); // Reset zoom when loading new file
     
         if (fileType === 'application/pdf') {
             const container = document.createElement('div');
@@ -371,11 +359,6 @@ function App() {
 
             {showDropArea && (
                 <div id="drop-area-container">
-                    <div className="drop-area-controls">
-                        <button onClick={() => handleZoom('in')}>Zoom In</button>
-                        <button onClick={() => handleZoom('out')}>Zoom Out</button>
-                    </div>
-
                     <div
                         ref={dropAreaRef}
                         id="drop-area"
@@ -396,9 +379,7 @@ function App() {
                             width: '100%', 
                             height: '100%', 
                             overflow: 'hidden',
-                            transform: `scale(${zoom})`,
-                            transformOrigin: 'center center',
-                            transition: 'transform 0.2s ease-out'
+                            transformOrigin: 'center center'
                         }}>
                             Drag & Drop any file here
                         </div>

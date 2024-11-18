@@ -127,9 +127,9 @@ body, html {
 /* Drop Area Styles */
 #drop-area-container {
   position: fixed;
-  top: 50%;
+  top: 30%;  /* Changed from 50% to 30% to move it higher */
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -30%);  /* Changed from -50% to -30% to match new top position */
   background: rgba(0,0,0,0.2);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
