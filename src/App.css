@@ -375,6 +375,8 @@ audio::-webkit-media-controls-time-remaining-display {
 
 /* Add styles for task buttons */
 #planner button {
+  width: calc(50% - 5px); /* Half width minus half the gap */
+  display: inline-block;
   padding: 10px;
   border: none;
   border-radius: 8px;
@@ -382,14 +384,20 @@ audio::-webkit-media-controls-time-remaining-display {
   color: white;
   font-weight: 500;
   transition: all 0.3s ease;
-  margin-top: 5px;
+  margin-top: 15px; /* Match note-controls margin */
+  margin-right: 10px; /* Add gap between buttons */
 }
 
 #planner button:hover {
   background: rgba(255, 255, 255, 0.2);
 }
 
+#planner button:last-of-type {
+  margin-right: 0; /* Remove margin from last button */
+}
+
 .task button {
+  width: auto !important;
   padding: 4px 10px !important;
   font-size: 12px !important;
   background: rgba(255, 0, 0, 0.2) !important;
