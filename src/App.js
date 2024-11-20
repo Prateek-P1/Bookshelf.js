@@ -176,29 +176,32 @@ function App() {
             reader.readAsText(file);
         }
     };
+      const [preloadedDocuments, setPreloadedDocuments] = useState([]);
+      const [showPreloadedDocuments, setShowPreloadedDocuments] = useState(false);
 
-    const [preloadedDocuments, setPreloadedDocuments] = useState([]);
-    const [showPreloadedDocuments, setShowPreloadedDocuments] = useState(false);
+      const togglePreloadedDocuments = () => {
+          setShowPreloadedDocuments(!showPreloadedDocuments);
+      };
 
-    const togglePreloadedDocuments = () => {
-        setShowPreloadedDocuments(!showPreloadedDocuments);
-    };
+      const addPreloadedDocument = (file) => {
+          setPreloadedDocuments([...preloadedDocuments, file]);
+      };
 
-    const addPreloadedDocument = (file) => {
-        setPreloadedDocuments([...preloadedDocuments, file]);
-    };
+      const removePreloadedDocument = (index) => {
+          setPreloadedDocuments(documents => documents.filter((_, i) => i !== index));
+      };
 
-    const handleFileDrop = (event) => {
-        event.preventDefault();
-        const files = event.dataTransfer.files;
-        if (files.length > 0) {
-            handleFile(files[0]);
-            addPreloadedDocument(files[0]);
-        }
-    };
+      const handleFileDrop = (event) => {
+          event.preventDefault();
+          const files = event.dataTransfer.files;
+          if (files.length > 0) {
+              handleFile(files[0]);
+              addPreloadedDocument(files[0]);
+          }
+      };
 
-    const handleMouseDown = (e, direction) => {
-        e.preventDefault();
+      const handleMouseDown = (e, direction) => {
+          e.preventDefault();
         setIsDragging(true);
         setDragDirection(direction);
         setStartPosition({
@@ -323,7 +326,8 @@ function App() {
             <div id="topRightText"><img src="logo.png" alt="Logo" height="100" width="300" /></div>
 
             <div id="musicPlayer">
-                <button onClick={previousTrack} title="Previous Track">&#9664;</button>
+
+                <button onClick={previousTrack} title="Previous Track">◀</button>
                 <div className="track-info">
                     <span>Now Playing: {tracks[currentTrackIndex].name}</span>
                 </div>
@@ -331,7 +335,8 @@ function App() {
                     <source src={tracks[currentTrackIndex].src} type="audio/mp3" />
                     Your browser does not support the audio element.
                 </audio>
-                <button onClick={nextTrack} title="Next Track">&#9654;</button>
+
+                <button onClick={nextTrack} title="Next Track">▶</button>
                 <button onClick={togglePlanner} title="Planner">📅</button>
                 <button onClick={toggleDropArea} title="File viewer">📂</button>
                 <button onClick={toggleNoteArea} title="Notes">📝</button>
@@ -354,6 +359,7 @@ function App() {
             {!cookiesAccepted && (
                 <div className="cookie-popup">
                     <div className="cookie-popup-content">
+                        <img src=''></img>
                         <p>We use cookies to enhance your experience.</p>
                         <p>By continuing to visit this site, you agree to our use of cookies.</p>
                         <button onClick={acceptCookies}>Accept</button>
@@ -417,15 +423,27 @@ function App() {
             )}
             {showPreloadedDocuments && (
                 <div id="preloaded-documents">
-                    {preloadedDocuments.map((document, index) => (
-                        <div
-                            key={index}
-                            className="preloaded-document"
-                            onClick={() => handleFile(document)}
-                        >
-                            {document.name}
+                    {preloadedDocuments.length > 0 ? (
+                        preloadedDocuments.map((document, index) => (
+                            <div key={index} className="preloaded-document">
+                                <span 
+                                    onClick={() => handleFile(document)}
+                                    style={{ cursor: 'pointer' }}
+                                >
+                                    {document.name}
+                                </span>
+                                <button 
+                                    onClick={() => removePreloadedDocument(index)}
+                                >
+                                    Delete
+                                </button>
+                            </div>
+                        ))
+                    ) : (
+                        <div className="preloaded-document">
+                            <span>No files loaded</span>
                         </div>
-                    ))}
+                    )}
                 </div>
             )}
 

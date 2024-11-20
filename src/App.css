@@ -528,14 +528,32 @@ audio::-webkit-media-controls-time-remaining-display {
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   transition: all 0.3s ease;
 }
+  .preloaded-document {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 12px;
+      margin-bottom: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+  }
 
-.preloaded-document {
-  cursor: pointer;
-  padding: 5px 10px;
-  border-radius: 4px;
-  transition: background-color 0.3s;
-}
+  .preloaded-document span {
+      flex-grow: 1;
+      margin-right: 15px;
+  }
 
-.preloaded-document:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-}
+  .preloaded-document button {
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      background: rgba(255, 0, 0, 0.2);
+      color: white;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      min-width: 70px;
+  }
+
+  .preloaded-document button:hover {
+      background: rgba(255, 0, 0, 0.3);
+  }
