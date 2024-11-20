@@ -77,6 +77,8 @@ app.post("/login", async (req, res) => {
 
 // Start server
 const PORT = 4000; // Use port 5000 for consistency
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
     console.log(`Server running on http://localhost:${PORT}`);
+    const { default: open } = await import("open");
+    open(`http://localhost:${PORT}`);    
 });
