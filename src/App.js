@@ -359,7 +359,7 @@ function App() {
             {!cookiesAccepted && (
                 <div className="cookie-popup">
                     <div className="cookie-popup-content">
-                        <img src=''></img>
+                        <img src='cookie.png' height="80" width="80"></img>
                         <p>We use cookies to enhance your experience.</p>
                         <p>By continuing to visit this site, you agree to our use of cookies.</p>
                         <button onClick={acceptCookies}>Accept</button>
