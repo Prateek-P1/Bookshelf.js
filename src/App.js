@@ -25,12 +25,7 @@ function App() {
     const taskInputRef = useRef();
     const audioPlayerRef = useRef();
     const fileInputRef = useRef();
-
     const [cookiesAccepted, setCookiesAccepted] = useState(false);
-    // const [showConfetti, setShowConfetti] = useState(false);
-    // const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-    // const [windowHeight, setWindowHeight] = useState(window.innerHeight);
-
     const [isDragging, setIsDragging] = useState(false);
     const [dragDirection, setDragDirection] = useState('');
     const [startPosition, setStartPosition] = useState({ x: 0, y: 0 });
@@ -39,7 +34,6 @@ function App() {
     const acceptCookies = () => {
         setCookiesAccepted(true);
     };
-
 
     useEffect(() => {
         const audioElement = audioPlayerRef.current;
@@ -91,11 +85,33 @@ function App() {
         setShowPlanner(!showPlanner);
     };
 
+    useEffect(() => {
+        if (showPlanner) {
+            taskInputRef.current.focus();
+        }
+    }, [showPlanner]);
+
+    
+
+
     const toggleDropArea = () => setShowDropArea(!showDropArea);
 
     const toggleNoteArea = () => setShowNoteArea(!showNoteArea);
 
-    const changeBackground = (event) => setBackground(`/images/${event.target.value}`);
+    const backgroundNames = {
+        'background1.gif': 'Blue Lagoon',
+        'background4.gif': 'Cafe',
+        'background6.gif': 'Beachside Living Room',
+        'background7.gif': 'Sunset Window',
+        'background8.gif': 'Midnight Street'
+    };
+    const [currentBackgroundName, setCurrentBackgroundName] = useState('Sunset Window');
+    const changeBackground = (event) => {
+        const selectedBackground = event.target.value;
+        const newBackground = `/images/${selectedBackground}`;
+        setBackground(newBackground);
+        setCurrentBackgroundName(backgroundNames[selectedBackground]);
+    };
 
     const handleDropAreaResize = (dimension, value) => {
         setDropAreaSize(prev => ({
@@ -123,14 +139,31 @@ function App() {
         setTasks(updatedTasks);
     };
 
+    const downloadTasks = () => {
+        const taskData = tasks.map(task => task.text).join('\n');
+        const fileName = prompt('Enter a file name for the tasks:', 'tasks.txt');
+        if (fileName) {
+            const blob = new Blob([taskData], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+    };
+
     const exportNotes = () => {
-        const blob = new Blob([notes], { type: 'text/plain' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'notes.txt';
-        a.click();
-        URL.revokeObjectURL(url);
+        const fileName = prompt('Enter a file name for the notes:', 'notes.txt');
+        if (fileName) {
+            const blob = new Blob([notes], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
     };
 
     const loadNotesFromFile = (event) => {
@@ -144,11 +177,23 @@ function App() {
         }
     };
 
+    const [preloadedDocuments, setPreloadedDocuments] = useState([]);
+    const [showPreloadedDocuments, setShowPreloadedDocuments] = useState(false);
+
+    const togglePreloadedDocuments = () => {
+        setShowPreloadedDocuments(!showPreloadedDocuments);
+    };
+
+    const addPreloadedDocument = (file) => {
+        setPreloadedDocuments([...preloadedDocuments, file]);
+    };
+
     const handleFileDrop = (event) => {
         event.preventDefault();
         const files = event.dataTransfer.files;
         if (files.length > 0) {
             handleFile(files[0]);
+            addPreloadedDocument(files[0]);
         }
     };
 
@@ -215,49 +260,55 @@ function App() {
             document.removeEventListener('mouseup', handleMouseUp);
         };
     }, [isDragging]);
+      const handleFile = (file) => {
+          const fileType = file.type;
+          const fileURL = URL.createObjectURL(file);
+          const dropArea = document.getElementById('drop-area-content');
+          dropArea.innerHTML = ''; // Clear previous content
 
-    const handleFile = (file) => {
-        const fileType = file.type;
-        const fileURL = URL.createObjectURL(file);
-        const dropArea = document.getElementById('drop-area-content');
-        dropArea.innerHTML = ''; // Clear previous content
+          if (fileType === 'application/pdf') {
+              const container = document.createElement('div');
+              container.style.width = '100%';
+              container.style.height = '100%';
+              container.style.position = 'relative';
+              container.style.overflow = 'hidden';
+
+              const iframe = document.createElement('iframe');
+              iframe.src = fileURL;
+              iframe.style.width = '100%';
+              iframe.style.height = '100%';
+              iframe.style.border = 'none';
+              iframe.style.position = 'absolute';
+              iframe.style.top = '0';
+              iframe.style.left = '0';
+              iframe.allowFullscreen = true;
+
+              container.appendChild(iframe);
+              dropArea.appendChild(container);
+          } else if (fileType.startsWith('image/')) {
+              const img = new Image();
+              img.src = fileURL;
+              img.style.width = '100%';
+              img.style.height = 'auto';
+              img.onload = () => {
+                  dropArea.appendChild(img);
+                  dropArea.scrollIntoView({ behavior: 'smooth' });
+              };
+          } else if (fileType.startsWith('video/')) {
+              const videoElement = document.createElement('video');
+              videoElement.src = fileURL;
+              videoElement.controls = true;
+              videoElement.style.width = '100%';
+              videoElement.oncanplaythrough = () => {
+                  dropArea.appendChild(videoElement);
+                  dropArea.scrollIntoView({ behavior: 'smooth' });
+              };
+          } else {
+              dropArea.innerHTML = `Unsupported file type: <strong>${file.name}</strong>`;
+              dropArea.scrollIntoView({ behavior: 'smooth' });
+          }
+      };
     
-        if (fileType === 'application/pdf') {
-            const container = document.createElement('div');
-            container.style.width = '100%';
-            container.style.height = '100%';
-            container.style.position = 'relative';
-            container.style.overflow = 'hidden';
-
-            const iframe = document.createElement('iframe');
-            iframe.src = fileURL;
-            iframe.style.width = '100%';
-            iframe.style.height = '100%';
-            iframe.style.border = 'none';
-            iframe.style.position = 'absolute';
-            iframe.style.top = '0';
-            iframe.style.left = '0';
-            iframe.allowFullscreen = true;
-
-            container.appendChild(iframe);
-            dropArea.appendChild(container);
-        } else if (fileType.startsWith('image/')) {
-            const img = document.createElement('img');
-            img.src = fileURL;
-            img.style.width = '100%';
-            img.style.height = 'auto';
-            dropArea.appendChild(img);
-        } else if (fileType.startsWith('video/')) {
-            const videoElement = document.createElement('video');
-            videoElement.src = fileURL;
-            videoElement.controls = true;
-            videoElement.style.width = '100%';
-            dropArea.appendChild(videoElement);
-        } else {
-            dropArea.innerHTML = `Unsupported file type: <strong>${file.name}</strong>`;
-        }
-    };
-
 
     const toggleFullscreen = () => {
         if (!document.fullscreenElement) {
@@ -267,7 +318,7 @@ function App() {
         }
     };
 
-    return (
+        return (
         <div style={{ backgroundImage: `url(${background})` }} className="App">
             <div id="topRightText"><img src="logo.png" alt="Logo" height="100" width="300" /></div>
 
@@ -284,18 +335,21 @@ function App() {
                 <button onClick={togglePlanner} title="Planner">📅</button>
                 <button onClick={toggleDropArea} title="File viewer">📂</button>
                 <button onClick={toggleNoteArea} title="Notes">📝</button>
+                <button onClick={togglePreloadedDocuments} title="Preloaded Documents">🗃️</button>
                 <button onClick={toggleFullscreen} title="Fullscreen">⛶</button>
-
                 <div id="backgroundSelector">
-                    <select onChange={changeBackground} value={background}>
-                        <option value="background1.gif">Blue Lagoon</option>
-                        <option value="background4.gif">Cafe</option>
-                        <option value="background6.gif">Beachside Living room</option>
-                        <option value="background7.gif">Sunset Window</option>
-                        <option value="background8.gif">Midnight Street</option>
-                    </select>
-                </div>
-            </div>
+                      <select 
+                          onChange={changeBackground} 
+                          value={background.split('/').pop()}
+                      >
+                          <option value="background1.gif">Blue Lagoon</option>
+                          <option value="background4.gif">Cafe</option>
+                          <option value="background6.gif">Beachside Living Room</option>
+                          <option value="background7.gif">Sunset Window</option>
+                          <option value="background8.gif">Midnight Street</option>
+                      </select>
+                  </div>
+              </div>
 
             {!cookiesAccepted && (
                 <div className="cookie-popup">
@@ -330,16 +384,22 @@ function App() {
                     </div>
                 </div>
             )}
-
+             
             {showPlanner && (
                 <div id="planner">
-                    <h2>My Planner</h2>
-                    <input
-                        type="text"
-                        ref={taskInputRef}
-                        placeholder="Enter a new task..."
+                <h2>My Planner</h2>
+                <input
+                    type="text"
+                    ref={taskInputRef}
+                    placeholder="Enter a new task..."
+                    onKeyPress={(e) => {
+                        if (e.key === 'Enter') {
+                            addTask()
+                            }
+                        }}
                     />
                     <button onClick={addTask}>Add Task</button>
+                     <button onClick={downloadTasks}>Save Tasks</button>
                     <div id="tasks">
                     {tasks.map((task, index) => (
                         <div key={index} className={`task ${task.completed ? 'completed' : ''}`}>
@@ -353,6 +413,19 @@ function App() {
                         </div>
                     ))}
                     </div>
+                </div>
+            )}
+            {showPreloadedDocuments && (
+                <div id="preloaded-documents">
+                    {preloadedDocuments.map((document, index) => (
+                        <div
+                            key={index}
+                            className="preloaded-document"
+                            onClick={() => handleFile(document)}
+                        >
+                            {document.name}
+                        </div>
+                    ))}
                 </div>
             )}
 
@@ -401,6 +474,6 @@ function App() {
             )}
         </div>
     );
-}
+};
 
 export default App;

@@ -318,7 +318,7 @@ audio::-webkit-media-controls-time-remaining-display {
 
 #backgroundSelector select option {
   background: #2a2a2a;
-  color: white;
+  color: rgb(160, 160, 160);
 }
 
 /* Scrollbar Styles */
@@ -472,4 +472,61 @@ audio::-webkit-media-controls-time-remaining-display {
   border-radius: 10px;
   text-align: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Planner Task Input with Google Sign-In Context */
+#planner input[type="text"] {
+  width: calc(100% - 24px);
+  padding: 12px;
+  margin-bottom: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+#planner input[type="text"]:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+#planner button[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: rgba(76, 175, 80, 0.2);
+}
+#preloaded-documents {
+  position: absolute;
+  bottom: 100px; /* Adjust the top position as needed */
+  left: 20px;
+  width: 300px;
+  padding: 20px;
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  z-index: 100;
+  max-height: 300px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  transition: all 0.3s ease;
+}
+
+.preloaded-document {
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.preloaded-document:hover {
+  background-color: rgba(255, 255, 255, 0.2);
 }
