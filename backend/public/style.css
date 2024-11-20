@@ -1,0 +1,139 @@
+/* General Body Styling */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Trebuchet MS', sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    color: white; /* This ensures all the text is white */
+}
+
+/* Background Video Styling */
+#background-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    filter: brightness(50%);
+}
+
+/* Logo Styling */
+.logo-container {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    z-index: 10;
+}
+
+.logo {
+    height: 50px; /* Adjust size based on your logo's dimensions */
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.1); /* Slight scaling effect for interactivity */
+    opacity: 0.9;
+}
+
+/* Form Container */
+.form-container {
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    width: 90%;
+    max-width: 400px;
+    animation: fadeIn 1.2s ease-out;
+}
+
+.form-container h2 {
+    margin-bottom: 20px;
+    font-size: 2rem;
+    color: #ffffff; /* Yellow color for headings */
+}
+
+.form-container p {
+    font-size: 0.9rem;
+    color: #bdc3c7; /* Light gray text color */
+}
+
+/* Form Group */
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+    color: #ecf0f1; /* Light gray color for labels */
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white; /* Ensure the text inside the inputs is white */
+    outline: none;
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.form-group input:focus {
+    box-shadow: 0 0 8px rgba(241, 196, 15, 0.8);
+    transform: scale(1.02);
+}
+
+/* Submit Button */
+.submit-btn {
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    background-color: #ffffff; /* Yellow background for the button */
+    border: none;
+    border-radius: 5px;
+    color: black; /* Default color for the button text */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.submit-btn:hover {
+    background-color: #ADD8E6;
+    color: white; /* White color for the button text on hover */
+    transform: scale(1.03);
+}
+
+/* Link Styling */
+.link {
+    text-decoration: none;
+    color: #ADD8E6; /* Yellow color for the link */
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.link:hover {
+    color: #d4ac0d;
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
