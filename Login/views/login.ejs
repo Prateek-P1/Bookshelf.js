@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+    <!-- Background Video -->
+    <video autoplay muted loop id="background-video">
+        <source src="login_vid.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- Logo in Top-Right Corner -->
+    <div class="logo-container">
+        <img src="logo.png" alt="Bookshelf.js Logo" class="logo">
+    </div>
+
+    <!-- Login Form Container -->
+    <div class="form-container">
+        <h2>Welcome Back</h2>
+        <h2>Your personalized reading space awaits</h2>
+        <form action="/login" method="post">
+          <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="username" placeholder="Enter your name" required autocomplete="off">
+          </div>
+          <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+          </div>
+          <button type="submit" class="submit-btn">Login</button>
+        </form>
+        <p>Don't have an account? <a class="link" href="/signup">Sign Up</a></p>
+    </div>
+
+</body>
+</html>
