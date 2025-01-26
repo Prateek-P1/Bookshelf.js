@@ -29,40 +29,34 @@ Backend: Node.js, Express.js
 
 Database: MongoDB
 
-Installation & Setup ⚙️
+# Installation & Setup ⚙️
 
-1. Clone the Repository
+## 1. Clone the Repository
 
 git clone https://github.com/yourusername/Bookshelf.js.git
 cd Bookshelf.js
 
-2. Install Dependencies
+## 2. Install Dependencies
 
-# Install backend dependencies
-cd server
+### Install login/authentication dependencies
 npm install
 
-# Install frontend dependencies
-cd ../client
+### Install backend dependencies
+cd backend
 npm install
 
-3. Setup Environment Variables
+## 3. Run the Application
 
-Create a .env file in the server directory with the following:
-
-MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_jwt_secret
-PORT=5000
-
-4. Run the Application
-
-# Start the backend server
-cd server
+### Start the Bookshelf app 
+cd Bookshelf.js
 npm start
+(the app will start on http://localhost:3000/)
 
-# Start the frontend
-cd ../client
-npm start
+### For login and authentication
+cd backend
+node index.js
+(the login and 'about' landing page will start on http://localhost:4000/)
+(this is optional, and you can use the app without needing to signup or login)
 
 The app will be running on http://localhost:3000/ 🎉
 
@@ -80,51 +74,7 @@ Notes Section
 
 
 
-API Endpoints 📡
-
-Method
-
-Endpoint
-
-Description
-
-POST
-
-/api/auth/register
-
-Register a new user
-
-POST
-
-/api/auth/login
-
-Login and get a token
-
-GET
-
-/api/books
-
-Fetch all books
-
-POST
-
-/api/books
-
-Add a new book
-
-DELETE
-
-/api/books/:id
-
-Delete a book
 
 Contribution 🤝
 
 We welcome contributions! Feel free to fork the repository and submit pull requests. Join the discussion on GitHub Issues.
-
-License 📜
-
-MIT License. See LICENSE file for details.
-
-📬 Contact: YourEmail@example.com | 🌍 Website: yourwebsite.com
-
