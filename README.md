@@ -55,14 +55,15 @@ npm start <br>
 (the app will start on http://localhost:3000/)
 
 ### For login and authentication
+(the login and 'about' landing page will start on http://localhost:4000/) 
+(this is optional, you can use the app without needing to signup or login) <br>
 cd backend <br>
-node index.js <br>
-(the login and 'about' landing page will start on http://localhost:4000/) <br>
-(this is optional, and you can use the app without needing to signup or login)
+node index.js
+
 
 The app will be running on http://localhost:3000/ 🎉
 
-Screenshots 🖼️
+## Screenshots 🖼️
 
 Login
 ![Screenshot 2024-12-06 220903](https://github.com/user-attachments/assets/3458fdfd-5326-4a6f-98de-f7b80f63d2d3)
