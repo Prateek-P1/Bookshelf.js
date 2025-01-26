@@ -1,10 +1,13 @@
-Bookshelf.js 📚
+# Bookshelf.js 📚
 
 
 
 Overview
 
-Bookshelf.js is a revolutionary digital reading management system designed to simplify book discovery, organization, and tracking. Built using React.js (Frontend), Node.js (Backend), and MongoDB (Database), it enables users to seamlessly manage their digital libraries across platforms.
+Bookshelf.js is a revolutionary digital reading management system designed to simplify book discovery, organization, and tracking.
+ Built using React.js (Frontend), Node.js (Backend), and MongoDB (Database), it enables users to seamlessly manage their digital libraries across platforms.
+
+ Simply sign up, open the website, drag and drop the pdf of a book you wish to read, and start reading with music and dynamic backgrounds to keep you company while you dive deep into your book.
 
 Features 🚀
 
@@ -20,13 +23,11 @@ Features 🚀
 
 Tech Stack 🛠️
 
-Frontend: React.js, TailwindCSS
+Frontend: React.js
 
 Backend: Node.js, Express.js
 
 Database: MongoDB
-
-Authentication: JWT-based authentication
 
 Installation & Setup ⚙️
 
