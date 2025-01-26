@@ -1,5 +1,7 @@
 # Bookshelf.js 📚
 
+![logo](https://github.com/user-attachments/assets/6606c5ee-2d44-4764-bf36-977b651e2c15)
+
 
 
 Overview
@@ -62,18 +64,14 @@ The app will be running on http://localhost:3000/ 🎉
 
 Screenshots 🖼️
 
-Home Page
+Login
+![Screenshot 2024-12-06 220903](https://github.com/user-attachments/assets/3458fdfd-5326-4a6f-98de-f7b80f63d2d3)
 
+About Us
+![Screenshot 2024-12-06 220929](https://github.com/user-attachments/assets/548c6406-9bbb-44a7-a441-dd6397393e6a)
 
-
-Task Manager
-
-
-
-Notes Section
-
-
-
+The App
+![Screenshot 2024-12-06 222025](https://github.com/user-attachments/assets/65ad4a70-f9ad-4d01-850e-73caaec744bf)
 
 Contribution 🤝
 
