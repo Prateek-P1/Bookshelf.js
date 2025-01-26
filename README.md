@@ -33,7 +33,7 @@ Database: MongoDB
 
 ## 1. Clone the Repository
 
-git clone https://github.com/yourusername/Bookshelf.js.git
+git clone https://github.com/yourusername/Bookshelf.js.git <br>
 cd Bookshelf.js
 
 ## 2. Install Dependencies
@@ -42,20 +42,20 @@ cd Bookshelf.js
 npm install
 
 ### Install backend dependencies
-cd backend
+cd backend <br>
 npm install
 
 ## 3. Run the Application
 
 ### Start the Bookshelf app 
-cd Bookshelf.js
-npm start
+cd Bookshelf.js <br>
+npm start <br>
 (the app will start on http://localhost:3000/)
 
 ### For login and authentication
-cd backend
-node index.js
-(the login and 'about' landing page will start on http://localhost:4000/)
+cd backend <br>
+node index.js <br>
+(the login and 'about' landing page will start on http://localhost:4000/) <br>
 (this is optional, and you can use the app without needing to signup or login)
 
 The app will be running on http://localhost:3000/ 🎉
