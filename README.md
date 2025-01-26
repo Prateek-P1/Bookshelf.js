@@ -68,8 +68,12 @@ The app will be running on http://localhost:3000/ 🎉
 Login
 ![Screenshot 2024-12-06 220903](https://github.com/user-attachments/assets/3458fdfd-5326-4a6f-98de-f7b80f63d2d3)
 
-About Us
+Home Page
 ![Screenshot 2024-12-06 220929](https://github.com/user-attachments/assets/548c6406-9bbb-44a7-a441-dd6397393e6a)
+
+Creators
+![Opera Snapshot_2025-01-26_100957_localhost](https://github.com/user-attachments/assets/f3b90ac9-0eca-4bce-812c-140908013e4d)
+
 
 The App
 ![Screenshot 2024-12-06 222025](https://github.com/user-attachments/assets/65ad4a70-f9ad-4d01-850e-73caaec744bf)
