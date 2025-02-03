@@ -359,8 +359,8 @@ function App() {
                 <button onClick={togglePlanner} title="Planner">📅</button>
                 <button onClick={toggleDropArea} title="File viewer">📂</button>
                 <button onClick={toggleNoteArea} title="Notes">📝</button>
-                <button onClick={togglePreloadedDocuments} title="Preloaded Documents">🗃️</button>
-                <button onClick={toggleBackgroundPreview} title="BackgroundSelector">🖼️</button>
+                <button onClick={togglePreloadedDocuments} title="Documents">🗃️</button>
+                <button onClick={toggleBackgroundPreview} title="Backgrounds">🖼️</button>
                 <button onClick={toggleFullscreen} title="Fullscreen">⛶</button>
                 
             </div>
@@ -369,7 +369,7 @@ function App() {
                     <div className="cookie-popup-content">
                         <img src='cookie.png' height="80" width="80"></img>
                         <p>We use cookies to enhance your experience.</p>
-                        <p>By continuing to visit this site, you agree to our use of cookies.</p>
+                        <p>By continuing to visit this site, you agree to our use of cookies(jk).</p>
                         <button onClick={acceptCookies}>Accept</button>
                     </div>
                 </div>
