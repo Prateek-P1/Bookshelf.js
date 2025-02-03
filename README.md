@@ -35,7 +35,7 @@ Database: MongoDB
 
 ## 1. Clone the Repository
 
-git clone [https://github.com/Prateek-P1/Bookshelf.js.git)] <br>
+git clone [https://github.com/Prateek-P1/Bookshelf.js.git] <br>
 cd Bookshelf.js
 
 ## 2. Install Dependencies
