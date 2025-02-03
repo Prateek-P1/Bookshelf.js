@@ -4,7 +4,7 @@
 
 
 
-## Try it now [https://bookshelf-js-silk.vercel.app]
+## Try it now https://bookshelf-js-silk.vercel.app
 
 Bookshelf.js is a revolutionary digital reading management system designed to simplify book discovery, organization, and tracking.
  Built using React.js (Frontend), Node.js (Backend), and MongoDB (Database), it enables users to seamlessly manage their digital libraries across platforms.
