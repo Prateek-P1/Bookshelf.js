@@ -30,6 +30,30 @@ function App() {
     const [dragDirection, setDragDirection] = useState('');
     const [startPosition, setStartPosition] = useState({ x: 0, y: 0 });
     const dropAreaRef = useRef(null);
+    const [showBackgroundPreview, setShowBackgroundPreview] = useState(false);
+
+    const backgroundDetails = {
+        'background1.gif': { 
+            name: 'Blue Lagoon', 
+            description: 'Serene blue ocean landscape' 
+        },
+        'background4.gif': { 
+            name: 'Cafe', 
+            description: 'Cozy coffee shop atmosphere' 
+        },
+        'background6.gif': { 
+            name: 'Beachside Living Room', 
+            description: 'Relaxing room with ocean view' 
+        },
+        'background7.gif': { 
+            name: 'Sunset Window', 
+            description: 'Warm sunset through a window' 
+        },
+        'background8.gif': { 
+            name: 'Midnight Street', 
+            description: 'Calm nighttime urban scene' 
+        }
+    };
 
     const acceptCookies = () => {
         setCookiesAccepted(true);
@@ -91,26 +115,20 @@ function App() {
         }
     }, [showPlanner]);
 
-    
-
+    const toggleBackgroundPreview = () => {
+        setShowBackgroundPreview(!showBackgroundPreview);
+    };
 
     const toggleDropArea = () => setShowDropArea(!showDropArea);
 
     const toggleNoteArea = () => setShowNoteArea(!showNoteArea);
 
-    const backgroundNames = {
-        'background1.gif': 'Blue Lagoon',
-        'background4.gif': 'Cafe',
-        'background6.gif': 'Beachside Living Room',
-        'background7.gif': 'Sunset Window',
-        'background8.gif': 'Midnight Street'
-    };
     const [currentBackgroundName, setCurrentBackgroundName] = useState('Sunset Window');
     const changeBackground = (event) => {
         const selectedBackground = event.target.value;
         const newBackground = `/images/${selectedBackground}`;
         setBackground(newBackground);
-        setCurrentBackgroundName(backgroundNames[selectedBackground]);
+        setCurrentBackgroundName(backgroundDetails[selectedBackground].name);
     };
 
     const handleDropAreaResize = (dimension, value) => {
@@ -320,6 +338,7 @@ function App() {
             document.exitFullscreen();
         }
     };
+    
 
         return (
         <div style={{ backgroundImage: `url(${background})` }} className="App">
@@ -341,21 +360,10 @@ function App() {
                 <button onClick={toggleDropArea} title="File viewer">📂</button>
                 <button onClick={toggleNoteArea} title="Notes">📝</button>
                 <button onClick={togglePreloadedDocuments} title="Preloaded Documents">🗃️</button>
+                <button onClick={toggleBackgroundPreview} title="BackgroundSelector">🖼️</button>
                 <button onClick={toggleFullscreen} title="Fullscreen">⛶</button>
-                <div id="backgroundSelector">
-                      <select 
-                          onChange={changeBackground} 
-                          value={background.split('/').pop()}
-                      >
-                          <option value="background1.gif">Blue Lagoon</option>
-                          <option value="background4.gif">Cafe</option>
-                          <option value="background6.gif">Beachside Living Room</option>
-                          <option value="background7.gif">Sunset Window</option>
-                          <option value="background8.gif">Midnight Street</option>
-                      </select>
-                  </div>
-              </div>
-
+                
+            </div>
             {!cookiesAccepted && (
                 <div className="cookie-popup">
                     <div className="cookie-popup-content">
@@ -366,6 +374,42 @@ function App() {
                     </div>
                 </div>
             )}
+            {showBackgroundPreview && (
+    <div className="background-preview-modal">
+        <div className="background-preview-content">
+            <h2>Select Background</h2>
+            <div className="background-preview-grid">
+                {[
+                    { file: 'background1.gif', name: 'Blue Lagoon' },
+                    { file: 'background4.gif', name: 'Cafe' },
+                    { file: 'background6.gif', name: 'Beachside Living Room' },
+                    { file: 'background7.gif', name: 'Sunset Window' },
+                    { file: 'background8.gif', name: 'Midnight Street' }
+                ].map((bg) => (
+                    <div 
+                        key={bg.file} 
+                        onClick={() => {
+                            setBackground(`/images/${bg.file}`);
+                            setCurrentBackgroundName(bg.name);
+                            setShowBackgroundPreview(false);
+                        }}
+                    >
+                        <img 
+                            src={`/images/${bg.file}`} 
+                            alt={bg.name} 
+                            style={{ width: '100%', height: '200px', objectFit: 'cover' }}
+                        />
+                        <p>{bg.name}</p>
+                    </div>
+                ))}
+            </div>
+            <button onClick={toggleBackgroundPreview}>Close</button>
+        </div>
+    </div>
+)}
+
+
+
 
             {showNoteArea && (
                 <div id="noteArea">
